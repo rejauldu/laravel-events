@@ -1,8 +1,15 @@
 <h1>Custom Events in Laravel</h1>
-<p>Assume that you want to send the email notification, as a security measure, when someone logs into the application. How can you send this email?</p><br/>
+<p>Assume that you want to send the email notification, as a security measure, when someone logs into the application. How can you send this email?</p>
 <p>Recall, any service bind with service container can be available to use via a facade. These two communicate each other through the service container with a binding key.</p>
-<p>But in Event listener phenomena, Event class and Listener class are bind directly with each other in EventServiceProvider.php by $listen array. Here, the key is the event and value is the listener.</p>
-Here is the <code>app/Providers/EventServiceProvider.php</code>
+<p>But in Event listener phenomena, Event class and Listener class are bonded directly with each other in EventServiceProvider.php by $listen array. Here, the key is the event and value is the listener.</p>
+<h2>Event Listener creating steps:</h2>
+<p>1. Open <code>app/Providers/EventServiceProvider.php</code> file and register our custom event and listener mappings.</p>
+<p>2. Run the command: <code>php artisan event:generate</code></p>
+<p>3. Update the <code>app/Events/ClearCache.php</code> class to give any property or methods (ex. <code>public $cache_keys = [];</code>)</p>
+<p>4. Update the handle method of your custom listener to work with the property or method created in step 2.</p>
+<p>5. Create a controller which will invoke <code>event</code> helper with an insance of your custom event</p>
+<h1>Understanding of Event Listener</h1>
+<p>Here is the <code>app/Providers/EventServiceProvider.php</code><p>
 <blockquote>
 <?php<br/>
 namespace App\Providers;<br/>
@@ -32,7 +39,7 @@ class EventServiceProvider extends ServiceProvider<br/>
     }<br/>
 }
 </blockquote>
-<p>Now, Illuminate\Auth\Events\Login is an event that'll be raised when someone logs into an application. We'll bound that event to the App\Listeners\SendEmailNotification listener, so it'll be triggered on the login event.</p>
+<p>Now, <code>Illuminate\Auth\Events\Login</code> is an event that'll be raised when someone logs into an application. We'll bound that event to the <code>App\Listeners\SendEmailNotification</code> listener, so it'll be triggered on the login event.</p>
 <blockquote>
 <?php<br/>
 namespace App\Providers;<br/>
